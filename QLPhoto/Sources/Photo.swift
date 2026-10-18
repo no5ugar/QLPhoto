@@ -118,8 +118,12 @@ struct Photo {
         var bins = Array(repeating: 0.0, count: 256)
         if success {
             for i in stride(from: 0, to: pixels.count, by: 4) {
-                let l = min(255, Int(Double(pixels[i]) * 0.2126 + Double(pixels[i+1]) * 0.7152 + Double(pixels[i+2]) * 0.0722))
-                bins[l] += 1
+                let red: Double = Double(pixels[i]) * 0.2126
+                let green: Double = Double(pixels[i + 1]) * 0.7152
+                let blue: Double = Double(pixels[i + 2]) * 0.0722
+                let luminance: Double = red + green + blue
+                let bin: Int = min(255, Int(luminance))
+                bins[bin] += 1
             }
         }
         return bins
