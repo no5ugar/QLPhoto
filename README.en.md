@@ -16,8 +16,6 @@ Built with Swift, AppKit, SwiftUI, and the system Image I/O framework, with no t
 
 ![Settings window](docs/images/settings.png)
 
-The settings screenshot predates the rename; PhotoPeek is the former name of QLPhoto.
-
 ## Features
 
 - Preview of JPG / JPEG, HEIC / HEIF, and DNG; DNG decoding compatibility depends on macOS and the camera model.

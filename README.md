@@ -16,8 +16,6 @@ macOS 照片预览工具。在 Finder 中选中照片，按空格查看图片、
 
 ![设置窗口](docs/images/settings.png)
 
-设置截图摄于更名前，图中的 PhotoPeek 为 QLPhoto 的旧名称。
-
 ## 功能
 
 - JPG / JPEG、HEIC / HEIF、DNG 预览；DNG 解码兼容性取决于 macOS 与相机型号。
