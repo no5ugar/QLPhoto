@@ -1,0 +1,72 @@
+name: QLPhoto
+options:
+  bundleIdPrefix: dev.local.QLPhoto
+  deploymentTarget:
+    macOS: "13.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGNING_ALLOWED: YES
+targets:
+  QLPhoto:
+    type: application
+    platform: macOS
+    sources: [Sources, App]
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: QLPhoto
+        CFBundleVersion: "4"
+        CFBundleShortVersionString: "1.0"
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: dev.local.QLPhoto.diagnostic
+            UTTypeDescription: QLPhoto Diagnostic Image
+            UTTypeConformsTo: [public.data]
+            UTTypeTagSpecification:
+              public.filename-extension: [qlphototest]
+        NSPrincipalClass: NSApplication
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Photos
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.jpeg, public.heic, public.heif, com.adobe.raw-image, dev.local.QLPhoto.diagnostic]
+    entitlements:
+      path: App/App.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+    dependencies:
+      - target: PhotoPreview
+        embed: true
+  PhotoPreview:
+    type: app-extension
+    platform: macOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.local.QLPhoto.QLPhoto.PhotoPreview
+    sources: [Sources, Extension]
+    info:
+      path: Extension/Info.plist
+      properties:
+        CFBundleVersion: "4"
+        CFBundleShortVersionString: "1.0"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.quicklook.preview
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PreviewProvider
+          NSExtensionAttributes:
+            QLSupportedContentTypes: [public.jpeg, public.heic, public.heif, com.adobe.raw-image, dev.local.QLPhoto.diagnostic]
+            QLSupportsSearchableItems: false
+            QLIsDataBasedPreview: true
+    entitlements:
+      path: Extension/Extension.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+schemes:
+  QLPhoto:
+    build:
+      targets:
+        QLPhoto: all
+    run:
+      config: Debug
+    archive:
+      config: Release

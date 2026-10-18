@@ -1,0 +1,17 @@
+name: macOS build and checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build without signing credentials
+        run: bash scripts/build.sh --unsigned
+      - name: Run non-interactive checks
+        run: bash scripts/check.sh

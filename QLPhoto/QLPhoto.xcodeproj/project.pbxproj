@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A69F7AB7CD17EFD73ED637C /* HTMLPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EAC959CB105E499EDD3A65 /* HTMLPreview.swift */; };
+		3CCF877424BA6B3CDD8F43D8 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7C1911FF4F085957958B28 /* Photo.swift */; };
+		3F32AF192AF9AB4DEABA999E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7C1911FF4F085957958B28 /* Photo.swift */; };
+		8EB7963027573FFD2F88B19A /* PhotoPreview.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 713F45D470FD8703EFC37635 /* PhotoPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AEDFAA3DA31128196A15AA22 /* HTMLPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EAC959CB105E499EDD3A65 /* HTMLPreview.swift */; };
+		B8AB631594B4931E6D3D7A4F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435D35FAF7253D16DB3562C9 /* App.swift */; };
+		BBCEA1E6169C2806D76E9025 /* FinderSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C6E50828097A63844029BD /* FinderSpace.swift */; };
+		F75EDCD10B5FDC12CDF07977 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EF3216AFEFD85A85D9F6116 /* PreviewProvider.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FD0638E6B5E7939C85E24DEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 697F855496C2D64516AE8985 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4295A2DE6390043AA03A28B5;
+			remoteInfo = PhotoPreview;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BF7368F69CE3FE2694E4887E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8EB7963027573FFD2F88B19A /* PhotoPreview.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1A842E6B9C8446A816D2A493 /* Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Extension.entitlements; sourceTree = "<group>"; };
+		3004D3320AD3AFD10E994F13 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		435D35FAF7253D16DB3562C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		58675FD45D1DC1E6E6C29A25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		713F45D470FD8703EFC37635 /* PhotoPreview.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PhotoPreview.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78C6E50828097A63844029BD /* FinderSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSpace.swift; sourceTree = "<group>"; };
+		9EF3216AFEFD85A85D9F6116 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
+		B5EAC959CB105E499EDD3A65 /* HTMLPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLPreview.swift; sourceTree = "<group>"; };
+		D26D5F15B1BF895041AB2D67 /* QLPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QLPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1DFB7C221FA2617BB16F80B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EF7C1911FF4F085957958B28 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		08C3AAD6F65A221D633C4344 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1A842E6B9C8446A816D2A493 /* Extension.entitlements */,
+				E1DFB7C221FA2617BB16F80B /* Info.plist */,
+				9EF3216AFEFD85A85D9F6116 /* PreviewProvider.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		981B639A148FA6C213E2D0EF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3004D3320AD3AFD10E994F13 /* App.entitlements */,
+				435D35FAF7253D16DB3562C9 /* App.swift */,
+				78C6E50828097A63844029BD /* FinderSpace.swift */,
+				58675FD45D1DC1E6E6C29A25 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9CBC5608DC1FF49C0BBC90B2 = {
+			isa = PBXGroup;
+			children = (
+				981B639A148FA6C213E2D0EF /* App */,
+				08C3AAD6F65A221D633C4344 /* Extension */,
+				DC5934A145BD9B5119AA0EDA /* Sources */,
+				CF89B0EE499C2FDDC97A5DC8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CF89B0EE499C2FDDC97A5DC8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D26D5F15B1BF895041AB2D67 /* QLPhoto.app */,
+				713F45D470FD8703EFC37635 /* PhotoPreview.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DC5934A145BD9B5119AA0EDA /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B5EAC959CB105E499EDD3A65 /* HTMLPreview.swift */,
+				EF7C1911FF4F085957958B28 /* Photo.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4295A2DE6390043AA03A28B5 /* PhotoPreview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C31E5A500FC1AEAD829F299 /* Build configuration list for PBXNativeTarget "PhotoPreview" */;
+			buildPhases = (
+				6D2F50D76B917DBD8B0F4B53 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoPreview;
+			packageProductDependencies = (
+			);
+			productName = PhotoPreview;
+			productReference = 713F45D470FD8703EFC37635 /* PhotoPreview.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7F9BD1CFB6F329CE688D8D0C /* QLPhoto */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23536012EA2B8EAB95C54883 /* Build configuration list for PBXNativeTarget "QLPhoto" */;
+			buildPhases = (
+				C4859111AC20645F4C8C4099 /* Sources */,
+				BF7368F69CE3FE2694E4887E /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA2EBCF4FCB2D1A8560FABAF /* PBXTargetDependency */,
+			);
+			name = QLPhoto;
+			packageProductDependencies = (
+			);
+			productName = QLPhoto;
+			productReference = D26D5F15B1BF895041AB2D67 /* QLPhoto.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		697F855496C2D64516AE8985 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 305F7951B0505DBAD01F81E2 /* Build configuration list for PBXProject "QLPhoto" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9CBC5608DC1FF49C0BBC90B2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CF89B0EE499C2FDDC97A5DC8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7F9BD1CFB6F329CE688D8D0C /* QLPhoto */,
+				4295A2DE6390043AA03A28B5 /* PhotoPreview */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6D2F50D76B917DBD8B0F4B53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A69F7AB7CD17EFD73ED637C /* HTMLPreview.swift in Sources */,
+				3CCF877424BA6B3CDD8F43D8 /* Photo.swift in Sources */,
+				F75EDCD10B5FDC12CDF07977 /* PreviewProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4859111AC20645F4C8C4099 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8AB631594B4931E6D3D7A4F /* App.swift in Sources */,
+				BBCEA1E6169C2806D76E9025 /* FinderSpace.swift in Sources */,
+				AEDFAA3DA31128196A15AA22 /* HTMLPreview.swift in Sources */,
+				3F32AF192AF9AB4DEABA999E /* Photo.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA2EBCF4FCB2D1A8560FABAF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4295A2DE6390043AA03A28B5 /* PhotoPreview */;
+			targetProxy = FD0638E6B5E7939C85E24DEC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0146099EB92FE78107BEF4F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.local.QLPhoto.QLPhoto;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		15D1F9DF2BBD7489DBD8BDC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Extension/Extension.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Extension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.local.QLPhoto.QLPhoto.PhotoPreview;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4E741B5393DBE36950326F81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.local.QLPhoto.QLPhoto;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C5470E955627131534640EC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		EB03AC6724551FA8DAB5893D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Extension/Extension.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Extension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.local.QLPhoto.QLPhoto.PhotoPreview;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EC79E49F1696CBB0E8A60023 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		23536012EA2B8EAB95C54883 /* Build configuration list for PBXNativeTarget "QLPhoto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0146099EB92FE78107BEF4F8 /* Debug */,
+				4E741B5393DBE36950326F81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2C31E5A500FC1AEAD829F299 /* Build configuration list for PBXNativeTarget "PhotoPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB03AC6724551FA8DAB5893D /* Debug */,
+				15D1F9DF2BBD7489DBD8BDC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		305F7951B0505DBAD01F81E2 /* Build configuration list for PBXProject "QLPhoto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC79E49F1696CBB0E8A60023 /* Debug */,
+				C5470E955627131534640EC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 697F855496C2D64516AE8985 /* Project object */;
+}

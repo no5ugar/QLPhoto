@@ -1,0 +1,30 @@
+# macOS / Xcode local state
+.DS_Store
+._*
+**/xcuserdata/
+*.xcuserstate
+DerivedData/
+.build/
+build/
+dist/
+*.dSYM/
+*.xcresult/
+*.xcarchive/
+
+# Distribute binaries through releases, not source control.
+*.app/
+*.zip
+*.dmg
+/成品/
+/历史对照/
+
+# Local credentials and private test photographs.
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
+*.provisionprofile
+/local-fixtures/
+
+# Shared schemes, source plists and the Xcode project are tracked.
