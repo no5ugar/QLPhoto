@@ -66,59 +66,17 @@ struct SettingsView: View {
 }
 final class PhotoWindow: NSWindow {
     var onNavigate: ((Int) -> Void)?
-    private var animationGeneration = 0
-    private var closing = false
-
     func presentPreview() {
-        let alreadyVisible = isVisible && !closing
-        animationGeneration += 1
-        closing = false
         animationBehavior = .none
-        if alreadyVisible { makeKeyAndOrderFront(nil); return }
-        if NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
-            alphaValue = 1
-            makeKeyAndOrderFront(nil)
-            return
-        }
-        if !isVisible { alphaValue = 0 }
         makeKeyAndOrderFront(nil)
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.16
-            animator().alphaValue = 1
-        }
     }
 
-    override func close() {
-        guard !closing else { return }
-        guard isVisible, !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion else {
-            animationGeneration += 1
-            super.close()
-            return
-        }
-        closing = true
-        animationGeneration += 1
-        let request = animationGeneration
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.14
-            animator().alphaValue = 0
-        } completionHandler: { [weak self] in
-            guard let self, self.closing, self.animationGeneration == request else { return }
-            self.finishClosing()
-        }
-    }
-
-    private func finishClosing() {
-        super.close()
-        closing = false
-        alphaValue = 1
-    }
     override func sendEvent(_ event: NSEvent) {
         let modifiers = event.modifierFlags.intersection([.command, .control, .option, .shift])
         if event.type == .keyDown, event.keyCode == 13, modifiers == .command {
             if !event.isARepeat { performClose(nil) }
             return
         }
-        if closing && event.type == .keyDown { return }
         if event.type == .keyDown, event.modifierFlags.intersection([.command, .control, .option, .shift]).isEmpty {
             if event.keyCode == 125 || event.keyCode == 126 {
                 onNavigate?(event.keyCode == 125 ? 1 : -1)
@@ -149,13 +107,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWi
     var generation = 0
     var returnToFinder = false
     var finderNavigation: FinderNavigation?
-    private let metadataQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.name = "QLPhoto.metadata"
-        queue.qualityOfService = .userInitiated
-        queue.maxConcurrentOperationCount = 1
-        return queue
-    }()
+    private(set) var previewState: PhotoLoadingState?
+    private(set) var pendingURL: URL?
     private let decodeQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name = "QLPhoto.previewDecode"
@@ -176,7 +129,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWi
     func applicationDidFinishLaunching(_ notification: Notification) {
         configureMainMenu()
         monitor.onStatus = { [weak self] value in self?.status = value }
-        monitor.onPreview = { [weak self] url in self?.open(url, fromFinder: true) }
+        monitor.onPreview = { [weak self] url in
+            guard let self else { return }
+            // A second space press while the initial decode is pending cancels opening.
+            if let preview = self.preview, !preview.isVisible, self.pendingURL == url {
+                preview.close()
+            } else {
+                self.open(url, fromFinder: true)
+            }
+        }
         updateMenuBarIcon()
         updateDockIcon()
         if UserDefaults.standard.bool(forKey: "spacePreviewEnabled") { enable() }
@@ -270,7 +231,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWi
     }
     func open(_ url: URL, fromFinder: Bool = false, navigating: Bool = false) {
         decodeQueue.cancelAllOperations()
-        metadataQueue.cancelAllOperations()
         if !navigating {
             finderNavigation = fromFinder ? FinderNavigation.capture(selected: url) : nil
         }
@@ -290,43 +250,42 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWi
             }
         }
         window.onNavigate = { [weak self] direction in self?.navigate(direction) }
-        window.title = url.lastPathComponent
+        if previewState == nil {
+            previewState = PhotoLoadingState()
+        }
+        guard let loading = previewState else { return }
+        pendingURL = url
         let regular = (try? url.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile) == true
         guard regular, ["jpg", "jpeg", "heic", "heif", "dng"].contains(url.pathExtension.lowercased()) else {
+            window.title = url.lastPathComponent
             showNavigationMessage("暂不支持预览此项目", detail: url.lastPathComponent + "\n按 ↑ / ↓ 继续切换，空格或 Esc 关闭")
             return
         }
-        let loading = PhotoLoadingState()
-        setPreviewContent(PhotoLoadingView(state: loading), in: window)
-        NSApp.activate(ignoringOtherApps: true); window.presentPreview()
-        let metadataOperation = BlockOperation()
-        metadataOperation.addExecutionBlock { [weak metadataOperation, weak self, weak window] in
-            guard let metadataOperation, !metadataOperation.isCancelled else { return }
-            let info = Photo.readMetadata(url)
-            guard !metadataOperation.isCancelled else { return }
-            DispatchQueue.main.async { [weak self, weak window] in
-                guard let self, let window, self.generation == request, self.preview === window else { return }
-                loading.metadata = info
-            }
-        }
-        metadataQueue.addOperation(metadataOperation)
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak operation, weak self, weak window] in
             guard let operation, !operation.isCancelled else { return }
-            let thumbnail = Photo.quickPreview(url)
-            guard !operation.isCancelled else { return }
-            DispatchQueue.main.async { [weak self, weak window] in
-                guard let self, let window, self.generation == request, self.preview === window else { return }
-                loading.thumbnail = thumbnail
-            }
-            guard !operation.isCancelled else { return }
             let result = Result { try Photo.load(url) }
             guard !operation.isCancelled else { return }
             DispatchQueue.main.async { [weak self, weak window] in
                 guard let self, let window, self.generation == request, self.preview === window else { return }
+                // Commit the image and its information in one main-thread turn. Never clear
+                // the visible photo while decoding or rebuild its hosting controller.
+                loading.error = nil
                 switch result {
                 case .success(let photo): loading.photo = photo
-                case .failure(let error): loading.error = error.localizedDescription
+                case .failure(let error):
+                    loading.photo = nil
+                    loading.error = error.localizedDescription
+                }
+                self.pendingURL = nil
+                if window.contentViewController == nil {
+                    self.setPreviewContent(PhotoLoadingView(state: loading), in: window)
+                }
+                window.title = url.lastPathComponent
+                if !window.isVisible {
+                    window.contentView?.layoutSubtreeIfNeeded()
+                    NSApp.activate(ignoringOtherApps: true)
+                    window.presentPreview()
                 }
             }
         }
@@ -371,22 +330,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject, NSWi
     }
     func showNavigationMessage(_ title: String, detail: String) {
         decodeQueue.cancelAllOperations()
-        metadataQueue.cancelAllOperations()
         generation += 1
-        guard let preview else { return }
-        setPreviewContent(
-            VStack(spacing: 12) {
-                Image(systemName: "doc.questionmark").font(.system(size: 36)).foregroundStyle(.secondary)
-                Text(title).font(.headline)
-                Text(detail).foregroundStyle(.secondary).multilineTextAlignment(.center)
-            }.padding(30).frame(maxWidth: .infinity, maxHeight: .infinity), in: preview)
+        pendingURL = nil
+        guard let preview, let state = previewState else { return }
+        state.photo = nil
+        state.error = title + "\n" + detail
+        if preview.contentViewController == nil {
+            setPreviewContent(PhotoLoadingView(state: state), in: preview)
+        }
+        if !preview.isVisible {
+            NSApp.activate(ignoringOtherApps: true)
+            preview.presentPreview()
+        }
     }
+
     func windowWillClose(_ notification: Notification) {
         guard notification.object as? NSWindow === preview else { return }
         savePreviewFrame()
         decodeQueue.cancelAllOperations()
-        metadataQueue.cancelAllOperations()
-        generation += 1; preview = nil; finderNavigation = nil
+        generation += 1; preview = nil; previewState = nil; pendingURL = nil; finderNavigation = nil
         if returnToFinder {
             NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder").first?.activate(options: [])
         }

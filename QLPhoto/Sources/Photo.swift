@@ -38,19 +38,6 @@ struct Photo {
     let histogram: [Double]
     let coordinate: (Double, Double)?
 
-    /// Prefer the embedded RAW preview; never perform a second full RAW development here.
-    static func quickPreview(_ url: URL) -> NSImage? {
-        guard let source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary) else { return nil }
-        let isRaw = url.pathExtension.lowercased() == "dng"
-        guard let cg = CGImageSourceCreateThumbnailAtIndex(source, 0, [
-            kCGImageSourceCreateThumbnailFromImageIfAbsent: !isRaw,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: 720,
-            kCGImageSourceShouldCacheImmediately: true
-        ] as CFDictionary) else { return nil }
-        return NSImage(cgImage: cg, size: .zero)
-    }
-
     static func load(_ url: URL) throws -> Photo {
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [String: Any],
@@ -185,8 +172,6 @@ struct ShootingInfo {
 }
 
 final class PhotoLoadingState: ObservableObject {
-    @Published var metadata: PhotoMetadata?
-    @Published var thumbnail: NSImage?
     @Published var photo: Photo?
     @Published var error: String?
 }
@@ -195,74 +180,29 @@ struct PhotoLoadingView: View {
     @ObservedObject var state: PhotoLoadingState
     @AppStorage("previewBackground") private var previewBackground = PreviewBackground.system.rawValue
     @Environment(\.colorScheme) private var colorScheme
-    @State private var showProgress = false
 
     var body: some View {
-        ZStack {
-            if state.photo == nil {
+        Group {
+            if let photo = state.photo {
+                PhotoView(photo: photo)
+            } else {
                 HStack(spacing: 0) {
                     ZStack {
                         Color((PreviewBackground(rawValue: previewBackground) ?? .system).color(dark: colorScheme == .dark))
-                        if let thumbnail = state.thumbnail {
-                            Image(nsImage: thumbnail).resizable().aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .transition(.identity)
-                        }
                         if let error = state.error {
                             VStack(spacing: 10) {
                                 Image(systemName: "exclamationmark.triangle").font(.title)
                                 Text(error).multilineTextAlignment(.center)
-                                Text("按 ↑ / ↓ 继续切换，空格或 Esc 关闭").font(.caption)
                             }.foregroundStyle(.white).padding(24)
                                 .background(.black.opacity(0.7), in: RoundedRectangle(cornerRadius: 12))
-                        } else if showProgress {
-                            VStack {
-                                Spacer()
-                                HStack(spacing: 8) {
-                                    ProgressView().controlSize(.small)
-                                    Text(state.thumbnail == nil ? "正在读取照片…" : "正在载入清晰预览…").font(.caption)
-                                }.padding(10).background(.regularMaterial, in: Capsule()).padding(16)
-                            }
                         }
                     }.frame(maxWidth: .infinity, maxHeight: .infinity)
                     Divider()
-                    if let metadata = state.metadata {
-                        PhotoInfoView(metadata: metadata, histogram: nil)
-                    } else {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("拍摄参数").font(.headline)
-                            if state.error == nil {
-                                LazyVGrid(columns: [GridItem(.flexible(), alignment: .leading), GridItem(.flexible(), alignment: .leading)], spacing: 6) {
-                                    ForEach(0..<6) { _ in
-                                        VStack(alignment: .leading, spacing: 3) {
-                                            Text("参数").font(.caption)
-                                            Text("000.0").font(.system(size: 15, weight: .semibold, design: .rounded))
-                                        }.frame(maxWidth: .infinity, minHeight: 36, alignment: .leading).padding(8)
-                                            .background(Color.primary.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 8))
-                                    }
-                                }.redacted(reason: .placeholder).accessibilityHidden(true)
-                                Divider()
-                                Text("直方图").font(.headline)
-                                RoundedRectangle(cornerRadius: 6).fill(Color.primary.opacity(0.05)).frame(height: 112)
-                            } else {
-                                Text("未能读取照片信息").foregroundStyle(.secondary)
-                            }
-                        }.padding(16)
-                    }.frame(width: 320)
-                    }
-                }.transition(.identity)
-            }
-            if let photo = state.photo {
-                PhotoView(photo: photo).transition(.identity)
+                    Color.clear.frame(width: 320)
+                }
             }
         }.frame(minWidth: 700, minHeight: 450)
             .transaction { $0.animation = nil; $0.disablesAnimations = true }
-            .task {
-                do { try await Task.sleep(nanoseconds: 200_000_000) } catch { return }
-                guard !Task.isCancelled, state.photo == nil, state.error == nil else { return }
-                showProgress = true
-            }
     }
 }
 
@@ -444,7 +384,14 @@ final class PhotoCanvasView: NSView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func configure(image: NSImage) {
-        if imageView.image !== image { zoom = 1; offset = .zero; imageView.image = image }
+        if imageView.image !== image {
+            zoom = 1
+            offset = .zero
+            imageView.image = image
+            // Position the new image in the same update, rather than drawing it once
+            // with the previous photo's aspect ratio or zoom before the next layout.
+            positionContent()
+        }
         needsLayout = true
     }
     private var fittedSize: CGSize {

@@ -53,11 +53,11 @@ if $ui; then
     done
     dng="$(first_with_ext 'dng' "$@" || true)"
     jpeg="$(first_with_ext 'jpg,jpeg' "$@" || true)"
+    "$compiler" "${flags[@]}" "$photoSource" "$temp/App.swift" "$root/QLPhoto/App/FinderSpace.swift" "$checks/Loading.swift" -o "$temp/loading"
     if [[ -n "$dng" && -n "$jpeg" ]]; then
-        "$compiler" "${flags[@]}" "$photoSource" "$temp/App.swift" "$root/QLPhoto/App/FinderSpace.swift" "$checks/Loading.swift" -o "$temp/loading"
         "$temp/loading" "$dng" "$jpeg"
     else
-        echo "Skip rapid-switch loading check: pass both a .dng and a .jpg / .jpeg file to enable it."
+        "$temp/loading"
     fi
 fi
 echo 'All requested checks passed.'
