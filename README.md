@@ -8,15 +8,15 @@ macOS 照片预览工具。在 Finder 中选中照片，按空格查看图片、
 
 ## 截图
 
-以下为**示意占位图**，仅用于展示布局；对外发布前请替换为真实截图（保持文件名不变即可）。
-
 ### 空格预览窗口
 
-![空格预览窗口（示意占位图）](docs/images/preview-window.png)
+![空格预览窗口](docs/images/preview-window.png)
 
 ### 设置与图标开关
 
-![设置窗口（示意占位图）](docs/images/settings.png)
+![设置窗口](docs/images/settings.png)
+
+设置截图摄于更名前，图中的 PhotoPeek 为 QLPhoto 的旧名称。
 
 ## 功能
 

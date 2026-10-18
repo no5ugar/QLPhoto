@@ -2,10 +2,9 @@
 
 ## 源码仓库
 
-在仓库根目录初始化 Git，检查要提交的内容，再关联你自己的远端仓库。当前工作尚未创建远端、推送或发布 Release。
+源码托管于 [no5ugar/QLPhoto](https://github.com/no5ugar/QLPhoto)。在仓库根目录检查待提交内容；GitHub Release 与源码提交分开管理。
 
 ```sh
-git init
 git add .
 git status --short
 git diff --cached --stat

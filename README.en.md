@@ -8,15 +8,15 @@ Built with Swift, AppKit, SwiftUI, and the system Image I/O framework, with no t
 
 ## Screenshots
 
-The images below are **labeled placeholders** that show the intended layout only. Replace them with real screenshots before publishing (keep the file names unchanged).
-
 ### Space preview window
 
-![Space preview window (placeholder)](docs/images/preview-window.png)
+![Space preview window](docs/images/preview-window.png)
 
 ### Settings and icon toggles
 
-![Settings window (placeholder)](docs/images/settings.png)
+![Settings window](docs/images/settings.png)
+
+The settings screenshot predates the rename; PhotoPeek is the former name of QLPhoto.
 
 ## Features
 
